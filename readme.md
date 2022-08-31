@@ -1,0 +1,1 @@
+Esta es una calculadora que permite calcular el pago de impustos, dependiendo de la condición fiscal del clinete, y la posibilidad de acceder a una financiación en el caso que rean respobles inscriptos. 
