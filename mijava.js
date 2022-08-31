@@ -35,7 +35,7 @@ pagoiibb = iibb()
 
 
 
-let responsable = prompt("usted es reponsable inscripto")
+let responsable = prompt("usted es reponsable inscripto? responda si o no")
 
 if (responsable == "no") {
     console.log("bien hecho")
@@ -72,10 +72,13 @@ else {
                 mensual = financiacion()
                 console.log(`elegiste ${cuotas} cuotas`)
                 console.log(`pagarás ${cuotas} cuotas de $${mensual}, con un interes del ${porcentaje}% `)
+                i = 1
+                
+                for (i; i <= (12-(12-cuotas)); i = i + 1) {
+                    console.log((`la cuota numero ${i} es de ${mensual}`))
+                }
                 break
             }
         } while (cuotas < 13)
     }
 }
-
-
