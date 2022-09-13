@@ -1,5 +1,11 @@
 baseclientes = []
 
+//variables fijas por entidad
+interes = 0.25
+let porcentaje = interes * 100
+let ali = 5
+
+//vcarga manual para definir una base
 
 let contribuyente = {
     "razon": "JUAN CAVALLO",
@@ -26,22 +32,23 @@ let contribuyente2 = {
 baseclientes.push(contribuyente2)
 
 
-//variables fijas por entidad
+//ingreso de datos del contribuyente nuevo
+
+razon = prompt("Ingrese su razón social o nombre");
+dni = prompt("ingrese su DNI")
+ventas = prompt("Ingrese el total de ventas");
+costo = prompt("Ingrese el costo de mercaderia vendida");
+condicion = prompt("usted es reponsable inscripto? responda si o no")
 
 
-interes = 0.25
-let porcentaje = interes * 100
-let ali = 5
-
-
-//funciones contables y fiscales
+//funciones contables y fiscales 
 
 function ivabase() {
     return (ventas / (1.21))
 }
 
 function iva2() {
-    return ventas - (ventas / (1.21))
+    return (ventas - (ventas / (1.21)))
 }
 
 function noiscripto() {
@@ -69,16 +76,6 @@ function impuestos() {
 }
 
 totalimp = impuestos()
-
-//ingreso de datos del contribuyente
-
-razon = prompt("Ingrese su razón social o nombre");
-dni = prompt("ingrese su DNI")
-ventas = prompt("Ingrese el total de ventas");
-costo = prompt("Ingrese el costo de mercaderia vendida");
-condicion = prompt("usted es reponsable inscripto? responda si o no")
-
-
 
 //toma nombre del contribuyente
 
@@ -115,7 +112,7 @@ else {
 
     //SE CAPTURAN LOS DATOS, NO SE OFRECE FINANCIACIÓN
 
-    let mor = prompt("quiere entrar en moratoria?")
+    let mor = prompt("quiere entrar en moratoria?").toLowerCase
 
 
     if (mor == "no") {
@@ -162,7 +159,7 @@ baseclientes.push(nuevocont)
 
 //CONSULTA DEL CONTRIBUYENTE CON DNI
 do {
-    dniinput = prompt(`ingrese su DNI`)
+    dniinput = prompt(`para iniciar una consulta por favor ingrese su DNI`)
     const busqueda = baseclientes.find((busqueda) => busqueda.dni === dniinput)
 
     if (busqueda) {
@@ -188,7 +185,7 @@ do {
                     (`tu razon social es ${busqueda.razon}
                     tus ingresos brutos son de $${busqueda.ventas}
                     responsable inscrpto si/no:  ${busqueda.condicion}
-                    tienes una financiación de ${busqueda.cantcuotas} de $${busqueda.valorcuota} c/u`)
+                    tienes una financiación de ${busqueda.cantcuotas} cuotas de $${busqueda.valorcuota} c/u`)
 
                     consulta()
                     break;
