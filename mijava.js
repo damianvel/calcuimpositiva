@@ -109,14 +109,16 @@ else {
     nuevocont.utilidadBruta = (`${brutainscripto}`)
     nuevocont.iibb = (`${pagoiibb}`)
     nuevocont.pagoiva = (`${ivainscripto}`)
+    alert(`pagarás $${pagoiibb} de ingresos brutos`)
+    alert(`pagarás $${ivainscripto} de IVA`)
 
     //SE CAPTURAN LOS DATOS, NO SE OFRECE FINANCIACIÓN
 
-    let mor = prompt("quiere entrar en moratoria?").toLowerCase
+    let mor = prompt("quiere entrar en moratoria?")
 
 
-    if (mor == "no") {
-        console.log(`tendrás que pagar $ ${ivainscripto} en un pago`)
+    if (mor === "no") {
+        alert(`tendrás que pagar $ ${ivainscripto} en un pago`)
         baseclientes.push(nuevocont)
         false
     }
@@ -143,6 +145,7 @@ else {
                 alert(`elegiste ${cuotas} cuotas`)
                 alert(`pagarás ${cuotas} cuotas de $${mensual}, con un interes del ${porcentaje}%, preciona aceptar para acceder a la financiación `)
                 i = 1
+                alert(`la financiación fué realizada`)
 
 
                 break
@@ -173,7 +176,6 @@ do {
             4 salir `)) {
                 case "1":
                     (console.log(`tienes que pagar un total de impuestos de $${totalimp}`))
-                    consulta()
                     break
                 case "2":
                     console.log(`tienes que pagar $${ivainscripto} en concepto de IVA`)
@@ -182,7 +184,7 @@ do {
                 case "3":
                     console.log
 
-                    (`tu razon social es ${busqueda.razon}
+                        (`tu razon social es ${busqueda.razon}
                     tus ingresos brutos son de $${busqueda.ventas}
                     responsable inscrpto si/no:  ${busqueda.condicion}
                     tienes una financiación de ${busqueda.cantcuotas} cuotas de $${busqueda.valorcuota} c/u`)
@@ -206,4 +208,8 @@ do {
 
 
 } while (resultado = "ok")
+
+function newFunction() {
+    consulta()
+}
 
