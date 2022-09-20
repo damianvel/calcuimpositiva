@@ -5,40 +5,47 @@ interes = 0.25
 let porcentaje = interes * 100
 let ali = 5
 
-//vcarga manual para definir una base
+function contri(razon, dni, ventas, costo, condicion) {
 
-let contribuyente = {
-    "razon": "JUAN CAVALLO",
-    "dni": "33731345",
-    "ventas": "10000",
-    "condicion": "SI",
-    "utilidadBruta": "2764.462809917355",
-    "iibb": "500",
-    "pagoiva": "1735"
+    this.razon = razon
+    this.dni = dni
+    this.ventas = ventas
+    this.costo = costo
+    this.condicion = condicion
 }
 
-baseclientes.push(contribuyente)
+//carga manual para definir una base
 
-let contribuyente2 = {
-    "razon": "CARLOS LOPEZ",
-    "dni": "33731348",
-    "ventas": "100000",
-    "condicion": "SI",
-    "utilidadBruta": "4000",
-    "iibb": "3500",
-    "pagoiva": "900"
-}
+let contribuyente1 = new contri(
+    "celeste lopa",
+    "35646599",
+    35200,
+    1500,
+    "si")
 
+let contribuyente2 = new contri(
+    "juan rendon",
+    "85646599",
+    65200,
+    37500,
+    "no")
+
+console.log(contribuyente1)
+console.log(contribuyente2)
+
+
+baseclientes.push(contribuyente1)
 baseclientes.push(contribuyente2)
 
 
 //ingreso de datos del contribuyente nuevo
 
-razon = prompt("Ingrese su razón social o nombre");
-dni = prompt("ingrese su DNI")
-ventas = prompt("Ingrese el total de ventas");
-costo = prompt("Ingrese el costo de mercaderia vendida");
-condicion = prompt("usted es reponsable inscripto? responda si o no")
+let razon = prompt("Ingrese su razón social o nombre");
+let dni = Number(prompt("ingrese su DNI"))
+let ventas = Number(prompt("Ingrese el total de ventas"));
+let costo = Number(prompt("Ingrese el costo de mercaderia vendida"));
+let condicion = prompt("usted es reponsable inscripto? responda si o no")
+
 
 
 //funciones contables y fiscales 
@@ -77,16 +84,16 @@ function impuestos() {
 
 totalimp = impuestos()
 
-//toma nombre del contribuyente
+//CONSTRUCCION NUEVO CONTRIBUYENTE
 
-function nuevo() {
+const nuevocont = new contri(
+    `${razon}`,
+    `${dni}`,
+    Number(`${ventas}`),
+    Number(`${costo}`),
+    `${condicion}`
+)
 
-    this.razon = razon
-    this.dni = dni
-    this.ventas = ventas
-    this.condicion = condicion
-}
-const nuevocont = new nuevo(`${razon}, ${dni}, ${ventas}, ${condicion}`)
 
 
 //EVALUACION DE LA CONDICION FRENTE AL IVA
@@ -158,12 +165,13 @@ else {
 
 
 baseclientes.push(nuevocont)
+console.log(baseclientes)
 
 
 //CONSULTA DEL CONTRIBUYENTE CON DNI
 do {
     dniinput = prompt(`para iniciar una consulta por favor ingrese su DNI`)
-    const busqueda = baseclientes.find((busqueda) => busqueda.dni === dniinput)
+    let busqueda = baseclientes.find((busqueda) => busqueda.dni === dniinput)
 
     if (busqueda) {
 
@@ -203,7 +211,7 @@ do {
 
 
     else {
-        console.log(`no se encuentra enla base de datos `)
+        alert(`no se encuentra enla base de datos, haga click en aceptar, luego, ingrese un DNI válido `)
     }
 
 
@@ -212,4 +220,3 @@ do {
 function newFunction() {
     consulta()
 }
-
