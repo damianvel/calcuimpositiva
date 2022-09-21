@@ -31,45 +31,8 @@
 
             <nav class="navbar navbar-expand-md">
                 <div class="container-fluid">
-                    <a class="navbar-brand " href="#">CALCULOS IMPOSITIVOS</a>
-                    <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse hamburguesa" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link " href="../index.html">home</a>
-                            </li>
+                    <a class="navbar-brand " href="#">CALCULADORA IMPOSITIVA</a>
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="acceso.html">acceso</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link " href="about.html">about</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="contacto.html">contact</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    coberturas
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="coberturas.html">Obras Sociales</a></li>
-                                    <li><a class="dropdown-item" href="coberturas.html">ART</a></li>
-                                    <li>
-                                    </li>
-                                    <li><a class="dropdown-item" href="coberturas.html">Mi Plan</a></li>
-                                </ul>
-                            </li>
-
-                        </ul>
-
-                    </div>-->
                 </div>
             </nav>
         </header>
@@ -109,8 +72,7 @@
                                 </div>
                                 <div class="formelement">
                                     <label for="apellido">DNI</label>
-                                    <input class="input" type="text" name="apellido" placeholder="" id="dni"
-                                        required>
+                                    <input class="input" type="text" name="apellido" placeholder="" id="dni" required>
                                 </div>
                                 <div class="formelement">
                                     <label for="telefono">VENTAS</label>
@@ -121,21 +83,39 @@
                                     <input class="input" type="text" id="costo" placeholder="" required>
                                 </div>
                                 <div class="formelement">
-                                    <label for="cobertura">CONDICION IVA</label>
-                                    <select class="input" name="cobertura" id="responsable">
+                                    <label for="condicion">CONDICION IVA</label>
+                                    <select class="input" name="condicion" id="condicion">
                                         <option class="formdesplegar" value=""> ...</option>
                                         <option value="si"> responsable incripto</option>
                                         <option value="no"> no inscripto</option>
                                     </select>
                                 </div>
                                 <div class="formelement">
-                                    <input class="enviar" type="submit" title="enviar">
+                                    <input class="enviar" type="submit" title="enviar" id="enviar">
                                 </div>
                             </div>
                         </fieldset>
                 </div>
             </div>
 
+
+
+            <div class="card formulario style=" width: 18rem;>
+                <div class="card-body">
+                    <h5 class="card-title">Consultas contribuyente</h5>
+                    <p class="card-text">Utilice nuetra herramienta de consultas</p>
+                    <a id="rendimiento" class="separate btn btn-primary">Ver mi rendimiento</a>
+                    <a id="reporte" class="separate btn btn-primary">Conocer impuestos a pagar</a>
+                    <a id="planpago" class="separate btn btn-primary">Acceder a financiación<nav></nav><nav></nav></a>
+
+                </div>
+            </div>
+
+
+            <div id="opciones">
+
+
+            </div>
         </main>
 
         <!--SECCION LATERAL  -->

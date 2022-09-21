@@ -5,219 +5,247 @@ interes = 0.25
 let porcentaje = interes * 100
 let ali = 5
 
-function contri(razon, dni, ventas, costo, condicion) {
+
+//FUNCION CONSTRUCTORA NUEVO CONTRIBUYENTE
+
+
+function contri(razon, dni, ventas, costo, condicion, pagoiibb, brutanoincripto, brutainscripto, netoiva, ivainscripto, totalimp) {
 
     this.razon = razon
     this.dni = dni
     this.ventas = ventas
     this.costo = costo
     this.condicion = condicion
+    this.pagoiibb = pagoiibb
+    this.brutanoincripto = brutanoincripto
+    this.brutainscripto = brutainscripto
+    this.netoiva = netoiva
+    this.ivainscripto = ivainscripto
+    this.totalimp = totalimp
 }
 
-//carga manual para definir una base
+//CARGA MANUAL PARA DEFINIR UNA BASE DE DATOS
 
 let contribuyente1 = new contri(
     "celeste lopa",
     "35646599",
     35200,
     1500,
-    "si")
+    "si",
+    50,
+    40,
+    20,
+    10,
+    5)
 
 let contribuyente2 = new contri(
     "juan rendon",
     "85646599",
     65200,
     37500,
-    "no")
-
-console.log(contribuyente1)
-console.log(contribuyente2)
+    "no",
+    500,
+    400,
+    200,
+    100,
+    50)
 
 
 baseclientes.push(contribuyente1)
 baseclientes.push(contribuyente2)
 
+const baseJson = JSON.stringify(baseclientes)
+localStorage.setItem(`base`, baseJson)
 
-//ingreso de datos del contribuyente nuevo
+//CAPTURA DE DATOS DESDE FORMULARIO
+let enviar = document.getElementById("enviar")
+enviar.addEventListener("click", agregar)
 
-let razon = prompt("Ingrese su razón social o nombre");
-let dni = Number(prompt("ingrese su DNI"))
-let ventas = Number(prompt("Ingrese el total de ventas"));
-let costo = Number(prompt("Ingrese el costo de mercaderia vendida"));
-let condicion = prompt("usted es reponsable inscripto? responda si o no")
+//LA FUNCIÓN SETEA TODAS LAS VARIABLES, REALIZA TODOS LOS CALCULOS Y LOS CARGA AL STORAGE
 
+function agregar() {
 
-
-//funciones contables y fiscales 
-
-function ivabase() {
-    return (ventas / (1.21))
-}
-
-function iva2() {
-    return (ventas - (ventas / (1.21)))
-}
-
-function noiscripto() {
-    return ventas - costo
-}
-
-function margen() {
-    return (netoiva - (ventas * (ali / 100)) - costo)
-}
-
-function iibb() {
-    return ventas * (ali / 100)
-}
+    let razon = document.getElementById("razon").value;
+    let dni = Number(document.getElementById("dni").value)
+    let ventas = Number(document.getElementById("ventas").value);
+    let costo = Number(document.getElementById("costo").value)
+    let condicion = document.getElementById("condicion").value
 
 
-ivainscripto = iva2()
-netoiva = ivabase()
-brutainscripto = margen()
-brutanoincripto = noiscripto()
-pagoiibb = iibb()
-
-
-function impuestos() {
-    return pagoiibb + ivainscripto
-}
-
-totalimp = impuestos()
-
-//CONSTRUCCION NUEVO CONTRIBUYENTE
-
-const nuevocont = new contri(
-    `${razon}`,
-    `${dni}`,
-    Number(`${ventas}`),
-    Number(`${costo}`),
-    `${condicion}`
-)
-
-
-
-//EVALUACION DE LA CONDICION FRENTE AL IVA
-
-if (condicion == "no") {
-    console.log("bien hecho")
-    console.log(`la utilidad bruta es ${brutanoincripto}`)
-    console.log(`el pago de ingresos brutos es de $ ${pagoiibb}`)
-    nuevocont.utilidadBruta = (`${brutanoincripto}`)
-    nuevocont.iibb = (`${pagoiibb}`)
-    nuevocont.pagoiva = (0)
-    condicion = false
-
-    //SOLO SE CAPTURAN LOS DATOS, NO SE OFRECE FINANCIACIÓN
-
-
-}
-
-else {
-    nuevocont.utilidadBruta = (`${brutainscripto}`)
-    nuevocont.iibb = (`${pagoiibb}`)
-    nuevocont.pagoiva = (`${ivainscripto}`)
-    alert(`pagarás $${pagoiibb} de ingresos brutos`)
-    alert(`pagarás $${ivainscripto} de IVA`)
-
-    //SE CAPTURAN LOS DATOS, NO SE OFRECE FINANCIACIÓN
-
-    let mor = prompt("quiere entrar en moratoria?")
-
-
-    if (mor === "no") {
-        alert(`tendrás que pagar $ ${ivainscripto} en un pago`)
-        baseclientes.push(nuevocont)
-        false
+    function ivabase() {
+        return (ventas / (1.21))
     }
 
-    //SI NO ACCEDE LA FINANCIACIÓN, SE GUARDAN LOS DATOS EN LA BASE
+    function iva2() {
+        return (ventas - (ventas / (1.21)))
+    }
+
+    function noinscripto() {
+        return ventas - costo
+    }
+
+    function margen() {
+        return (netoiva - (ventas * (ali / 100)) - costo)
+    }
+
+    function iibb() {
+        return ventas * (ali / 100)
+    }
+
+    ivainscripto = iva2()
+    netoiva = ivabase()
+    brutainscripto = margen()
+    brutanoincripto = noinscripto()
+    pagoiibb = iibb()
+
+    function impuestos() {
+        return pagoiibb + ivainscripto
+    }
+
+    totalimp = impuestos()
+
+    const nuevocont = new contri(
+        `${razon}`,
+        `${dni}`,
+        Number(`${ventas}`),
+        Number(`${costo}`),
+        `${condicion}`,
+        Number(`${pagoiibb}`),
+        Number(`${brutanoincripto}`),
+        Number(`${brutainscripto}`),
+        Number(`${netoiva}`),
+        Number(`${ivainscripto}`),
+        Number(`${totalimp}`)
+    )
+
+    const nuevoJson = JSON.stringify(nuevocont)
+    localStorage.setItem(`nuevo`, nuevoJson)
+}
+
+
+//CONSULTA POR PARTE DEL CONTRIBUYENTE
+
+//PRIMER BOTON
+
+let op1 = document.getElementById("rendimiento")
+op1.addEventListener("click", () => {
+
+    let a = document.getElementById("opciones")
+    let opcion1 = document.createElement("div")
+
+    parsedNuevo = JSON.parse(localStorage.getItem("nuevo"))
+
+    if (parsedNuevo.condicion === "no") {
+        condicion = false
+
+        opcion1.innerHTML = ` <div class="card separate" style="width: 100%;">
+<div class="card-body formulario">
+        <h5 class="card-title">Estos son tus márgenes</h5>
+        <p class="card-text">NO INSCRIPTO:   
+        la utilidad bruta es ${parsedNuevo.brutanoincripto}, no paga IVA, pero recuerde
+       pagar ingresos brutos por $ ${parsedNuevo.pagoiibb}</p>      
+    </div>
+    </div>`
+        a.append(opcion1)
+    }
 
 
     else {
-        let cuotas = 0
-        do {
-            let cuotas = prompt("ingrese la cantidad de cuotas, se permiten hasta 12")
-            if (cuotas > 12) {
-                console.log("son demasiadas cuotas")
-                false
-            }
-            else {
-                function financiacion() {
-                    return (nuevocont.pagoiva * interes / cuotas)
-                }
-                mensual = financiacion()
-                nuevocont.cantcuotas = (`${cuotas}`)
-                nuevocont.valorcuota = (`${mensual}`)
-
-                alert(`elegiste ${cuotas} cuotas`)
-                alert(`pagarás ${cuotas} cuotas de $${mensual}, con un interes del ${porcentaje}%, preciona aceptar para acceder a la financiación `)
-                i = 1
-                alert(`la financiación fué realizada`)
+        opcion1.innerHTML = ` <div class="card separate" style="width: 100%;">
+<div class="card-body formulario">
 
 
-                break
-            }
-        } while (cuotas < 13)
+        <h5 class="card-title">Estos son tus márgenes</h5>
+        <p class="card-text"> IVA INSCRIPTO:    
+        la utilidad bruta es $${parsedNuevo.brutainscripto}, pagás IVA y además ingresos brutos por $${parsedNuevo.pagoiibb} </p>      
+    </div>
+    </div>
+    `
+        a.append(opcion1)
     }
-}
 
-// SE GUARDAN LOS DATOS EN LA BASE, CON INFO DE FINANCIACIÓN
+})
+
+//SEGUNDO BOTON
+
+let op2 = document.getElementById("reporte")
+op2.addEventListener("click", () => {
+
+    let a = document.getElementById("opciones")
+    let opcion2 = document.createElement("div")
+
+    parsedNuevo = JSON.parse(localStorage.getItem("nuevo"))
+
+    if (parsedNuevo.condicion === "no") {
+        condicion = false
+
+        opcion1.innerHTML = ` <div class="card separate" style="width: 100%;">
+<div class="card-body formulario">
+        <h5 class="card-title">Aquí tienes el detalle de impuestos</h5>
+        <p class="card-text">NO INSCRIPTO:   
+  Solamente debes pagar ingresos brutos por $ ${parsedNuevo.pagoiibb}</p>      
+    </div>
+    </div>`
+        a.append(opcion2)
+    }
+
+    else {
+        opcion2.innerHTML = ` <div class="card separate" style="width: 100%;">
+<div class="card-body formulario">
 
 
-baseclientes.push(nuevocont)
-console.log(baseclientes)
+        <h5 class="card-title">Aquí tienes el detalle de impuestos</h5>
+        <p class="card-text"> IVA INSCRIPTO:  
+        Tienes que pagar ingresos brutos por $${parsedNuevo.pagoiibb}, 
+        IVA por $${parsedNuevo.ivainscripto}, en total perderás $${parsedNuevo.totalimp}, puedes acceder a la financiación por el IVA </p>      
+    </div>
+    </div>
+    `
+        a.append(opcion2)
+    }
+
+})
 
 
-//CONSULTA DEL CONTRIBUYENTE CON DNI
-do {
-    dniinput = prompt(`para iniciar una consulta por favor ingrese su DNI`)
-    let busqueda = baseclientes.find((busqueda) => busqueda.dni === dniinput)
+//TERCER BOTON
 
-    if (busqueda) {
+let op3 = document.getElementById("planpago")
+op3.addEventListener("click", () => {
 
-        function consulta() {
-        } {
-            switch (prompt(`Elija la información que desea obtener:
-            1 total de impuestos a pagar
-            2 IVA a pagar
-            3 conocer todos sus datos
-            4 salir `)) {
-                case "1":
-                    (console.log(`tienes que pagar un total de impuestos de $${totalimp}`))
-                    break
-                case "2":
-                    console.log(`tienes que pagar $${ivainscripto} en concepto de IVA`)
-                    consulta()
-                    break;
-                case "3":
-                    console.log
+    let cuotas = prompt("ingrese la cantidad de cuotas, se permiten hasta 12")
+    if (cuotas > 12) {
+        alert("son demasiadas cuotas, vuelve a ingresar a la financiación e ingresa hasta 12")
+    }
+    else {
+        parsedNuevo = JSON.parse(localStorage.getItem("nuevo"))
 
-                        (`tu razon social es ${busqueda.razon}
-                    tus ingresos brutos son de $${busqueda.ventas}
-                    responsable inscrpto si/no:  ${busqueda.condicion}
-                    tienes una financiación de ${busqueda.cantcuotas} cuotas de $${busqueda.valorcuota} c/u`)
-
-                    consulta()
-                    break;
-                case "4":
-                    resultado = "ok"
-                    break;
-            }
+        function financiacion() {
+            return (parsedNuevo.ivainscripto * interes / cuotas)
         }
+        mensual = financiacion()
 
 
-        break
+        parsedNuevo.cantcuotas = (`${cuotas}`)
+        parsedNuevo.valorcuota = (`${mensual}`)
+        const nuevoJson = JSON.stringify(parsedNuevo)
+        localStorage.setItem(`nuevo`, nuevoJson)
+
+        let a = document.getElementById("opciones")
+        let opcion3 = document.createElement("div")
+
+        parsedNuevo = JSON.parse(localStorage.getItem("nuevo"))
+
+        opcion3.innerHTML = ` <div class="card separate" style="width: 100%;">
+            <div class="card-body formulario">
+                    <h5 class="card-title">Detalle de la financiación</h5>
+                    <p class="card-text">elegiste $${parsedNuevo.cantcuotas} cuotas, pagarás $${parsedNuevo.cantcuotas} cuotas de $${parsedNuevo.valorcuota} con un interes del ${porcentaje}%
+    
+                    </p>      
+                </div>
+                </div>`
+        a.append(opcion3)
     }
 
+})
 
-    else {
-        alert(`no se encuentra enla base de datos, haga click en aceptar, luego, ingrese un DNI válido `)
-    }
-
-
-} while (resultado = "ok")
-
-function newFunction() {
-    consulta()
-}
 
