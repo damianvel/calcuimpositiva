@@ -1,5 +1,5 @@
 html {
-  font-size: 62.5%; }
+  font-size: 100%; }
 
 * {
   margin: 0px;
@@ -11,6 +11,8 @@ html {
 
 .grid, .gridpages {
   display: grid;
+  grid-template-rows: auto auto auto; 
+
   grid-template-areas: "menu menu menu"
  "lateral principal secundario"
  "pie pie pie";
@@ -18,8 +20,7 @@ html {
   column-gap: 0.2rem;
   row-gap: 0.3rem; }
 
-.gridpages, .gridabout {
-  grid-template-rows: auto auto auto; }
+
 
 main {
   grid-area: principal; }
@@ -36,12 +37,7 @@ aside {
   aside:hover {
     background-image: linear-gradient(to left, #bbceda, #9ec9f3); }
 
-hgroup {
-  font-size: 0.8rem;
-  grid-area: titulo;
-  text-align: center;
-  margin-bottom: -3%;
-  color: #004600; }
+
 
 .formulario {
   margin-top: 5%;
@@ -61,12 +57,7 @@ header {
   background-color: solid rgb(72, 101, 44);
  }
 
-.navbar {
-  background-image: solid rgb(72, 101, 44);
-  padding-left: 5%;
-  padding-right: 7%;
-  padding-top: 2%; }
-   
+
 
 .navbar-brand {
   color: #004600;
@@ -93,22 +84,12 @@ footer {
   margin-top: 2rem; }
 
 
-
-
-
-.nodecoration {
-  list-style: none;
-  text-decoration: none;
-  color: #004600; }
-
 .target {
   filter: #a12c3e;
   animation-duration: 1s;
   animation-name: fadein;
   animation-iteration-count: infinite; }
 
-.gridhome {
-  grid-template-rows: auto 200rem auto; }
 
 main {
   padding: 5%; }
@@ -116,12 +97,6 @@ main {
     text-align: center;
     margin-bottom: -3%;
     color: #004600; }
-
-.homebox {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  align-items: center; }
 
 
 
@@ -136,22 +111,6 @@ main {
     align-items: center;}
 
 
-.container-fluid2 {
-  background-image: radial-gradient(#b6d3ca, #f8e9e9);
-  width: auto;
-  padding: 3%;
-  margin: 2%;
-  border-radius: 5px;
-  font-family: Arial, Helvetica, sans-serif; }
-  .container-fluid2 h2 {
-    color: #004600; }
-  .container-fluid2 p {
-    padding-top: 1%;
-    color: #3d3d3d;
-    font-size: medium; }
-  .container-fluid2 div {
-    margin-top: 2%;
-    color: #eefdf3; }
 
 .contactobox {
   display: flex;
@@ -209,91 +168,10 @@ main {
 .hgabout {
   margin-bottom: 3%; }
 
-@keyframes colorefect {
-  from {
-    filter: contrast(2); }
-  to {
-    background-image: linear-gradient(#bbceda, #cbeedb); } }
-
-@keyframes slidein {
-  from {
-    width: 10%; }
-  to {
-    width: 70%; } }
-
-@keyframes slidelink {
-  from {
-    width: 10%; }
-  to {
-    width: 100%; } }
-
-@keyframes slidetop {
-  from {
-    margin-bottom: -10%; }
-  to {
-    margin-bottom: 0%; } }
-
-@keyframes fadein {
-  from {
-    opacity: 50%; }
-  to {
-    opacity: 100%; } }
-
-@keyframes fadeout {
-  from {
-    opacity: 100%; }
-  to {
-    opacity: 50%; } }
 
 .justfirs {
   animation-duration: 6s;
   animation-name: slidein; }
 
 
-
-@media (min-width: 1024px) {
-  .gridhome {
-    grid-template-rows: auto 195rem auto; }
-  .grid, .gridpages, .gridabout, .gridhome, .gridcob {
-    grid-template-columns: 7% auto 6%; }
-  .iconos img {
-    margin-top: 2rem;
-    height: 3rem;
-    width: 3rem; }
-  .homebox {
-    flex-direction: row;
-    flex-wrap: nowrap; }
-  .homeimagen {
-    height: 40rem;
-    width: 35rem; }
-  .hometext {
-    display: hi;
-    text-align: right;
-    font-size: 2.8rem;
-    line-height: 6rem;
-    padding: 5rem 8rem 0rem 0rem; }
-  .accesobox {
-    padding: 0rem; }
-  .abouttext {
-    font-size: 2rem;
-    line-height: 2.5rem;
-    padding: 2rem 3rem;
-    margin-bottom: 1rem; }
-  .datosbox {
-    width: 23rem; }
-  .dato {
-    margin-top: 1rem; }
-  .datosbox {
-    margin-bottom: -17rem; }
-  .formelement {
-    margin-top: 1rem;
-    font-size: 2rem; }
-  .formelement {
-    text-align: left;
-    font-size: 1.6rem;
-    padding: 1rem; }
-  .input {
-    width: 50%; }
-  .gridcob {
-    grid-template-rows: auto 105rem auto; } }
 
