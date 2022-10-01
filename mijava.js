@@ -215,6 +215,12 @@ op2.addEventListener("click", () => {
         let opcion2 = document.createElement("div")
         parsedNuevo = JSON.parse(localStorage.getItem("nuevo"))
 
+        Swal.fire(
+            'Financiación realizada',
+            'A continuación puedes consultar el detalle de las cuotas',
+            'success'
+        )
+
         opcion2.innerHTML = ` <div class="card separate size" style="width: 100%;">
             <div class="card-body formulario">
                     <h5 class="card-title">Detalle de la financiación</h5>
