@@ -9,24 +9,24 @@ let ali = 5
 //FUNCION CONSTRUCTORA NUEVO CONTRIBUYENTE
 
 
-function contri(razon, dni, ventas, costo, condicion, pagoiibb, brutanoinscripto, brutainscripto, netoiva, ivainscripto, totalimp) {
+function Contri(razon, dni, ventas, costo, condicion, pagoIbb, brutaNoInscripto, brutaInscripto, netoIva, ivaInscripto, totalImp) {
 
     this.razon = razon
     this.dni = dni
     this.ventas = ventas
     this.costo = costo
     this.condicion = condicion
-    this.pagoiibb = pagoiibb
-    this.brutanoinscripto = brutanoinscripto
-    this.brutainscripto = brutainscripto
-    this.netoiva = netoiva
-    this.ivainscripto = ivainscripto
-    this.totalimp = totalimp
+    this.pagoIbb = pagoIbb
+    this.brutaNoInscripto = brutaNoInscripto
+    this.brutaInscripto = brutaInscripto
+    this.netoIva = netoIva
+    this.ivaInscripto = ivaInscripto
+    this.totalImp = totalImp
 }
 
 //CARGA MANUAL PARA DEFINIR UNA BASE DE DATOS
 
-let contribuyente1 = new contri(
+let contribuyente1 = new Contri(
     "celeste lopa",
     "1",
     35200,
@@ -38,7 +38,7 @@ let contribuyente1 = new contri(
     10,
     5)
 
-let contribuyente2 = new contri(
+let contribuyente2 = new Contri(
     "juan rendon",
     "85646599",
     65200,
@@ -59,10 +59,10 @@ localStorage.setItem(`base`, baseJson)
 
 //CAPTURA DE DATOS DESDE FORMULARIO
 let enviar = document.getElementById("enviar")
-enviar.addEventListener("click", agregar)
+enviar.addEventListener("click", Agregar)
 
 //LA FUNCIÓN SETEA TODAS LAS VARIABLES, REALIZA TODOS LOS CALCULOS Y LOS CARGA AL STORAGE
-function agregar(send) {
+function Agregar(send) {
 
     send.preventDefault()
 
@@ -72,50 +72,50 @@ function agregar(send) {
     let costo = Number(document.getElementById("costo").value)
     let condicion = document.getElementById("condicion").value
 
-    function ivabase() {
+    function IvaBase() {
         return (ventas / (1.21))
     }
 
-    function iva2() {
+    function Iva2() {
         return (ventas - (ventas / (1.21)))
     }
 
-    function noinscripto() {
+    function NoInscripto() {
         return ventas - costo
     }
 
-    function margen() {
-        return (netoiva - (ventas * (ali / 100)) - costo)
+    function Margen() {
+        return (netoIva - (ventas * (ali / 100)) - costo)
     }
 
-    function iibb() {
+    function Ibb() {
         return ventas * (ali / 100)
     }
 
-    ivainscripto = iva2()
-    netoiva = ivabase()
-    brutainscripto = margen()
-    brutanoinscripto = noinscripto()
-    pagoiibb = iibb()
+    ivaInscripto = Iva2()
+    netoIva = IvaBase()
+    brutaInscripto = Margen()
+    brutanoInscripto = NoInscripto()
+    pagoIbb = Ibb()
 
-    function impuestos() {
-        return pagoiibb + ivainscripto
+    function Impuestos() {
+        return pagoIbb + ivaInscripto
     }
 
-    totalimp = impuestos()
+    totalImp = Impuestos()
 
-    const nuevocont = new contri(
+    const nuevocont = new Contri(
         `${razon}`,
         `${dni}`,
         Number(`${ventas}`),
         Number(`${costo}`),
         `${condicion}`,
-        Number(`${pagoiibb}`),
-        Number(`${brutanoinscripto}`),
-        Number(`${brutainscripto}`),
-        Number(`${netoiva}`),
-        Number(`${ivainscripto}`),
-        Number(`${totalimp}`)
+        Number(`${pagoIbb}`),
+        Number(`${brutanoInscripto}`),
+        Number(`${brutaInscripto}`),
+        Number(`${netoIva}`),
+        Number(`${ivaInscripto}`),
+        Number(`${totalImp}`)
     )
 
     baseclientes.push(nuevocont)
@@ -139,7 +139,7 @@ op0.addEventListener("click", () => {
 
 
         encontrado = Object(parsedBase.filter((encontrado) => encontrado.dni === dniinput))[0]
-        capital = encontrado.ivainscripto
+        capital = encontrado.ivaInscripto
         console.log(encontrado)
         console.log(indice)
         console.log(capital)
@@ -157,7 +157,6 @@ op0.addEventListener("click", () => {
 }
 )
 
-
 let a = document.getElementById("opciones")
 
 //PRIMER BOTON
@@ -169,15 +168,14 @@ op1.addEventListener("click", () => {
     let a = document.getElementById("opciones")
     let opcion1 = document.createElement("div")
 
-
     if (encontrado.condicion === "no") {
         opcion1.innerHTML =
             `<div class="card separate" style="width: 100%;">
         <div class="card-body formulario">
         <h5 class="card-title">Estos son tus márgenes</h5>
         <p class="card-text">NO INSCRIPTO:   
-        la utilidad bruta es ${encontrado.brutanoinscripto}, no paga IVA, pero recuerde
-        pagar ingresos brutos por $ ${encontrado.pagoiibb}, Solamente debes pagar ingresos brutos por $ ${encontrado.pagoiibb}</p>      
+        la utilidad bruta es ${encontrado.brutanoInscripto}, no paga IVA, pero recuerde
+        pagar ingresos brutos por $ ${encontrado.pagoIbb}, Solamente debes pagar ingresos brutos por $ ${encontrado.pagoIbb}</p>      
         </div>
         </div>`
         a.append(opcion1)
@@ -188,8 +186,8 @@ op1.addEventListener("click", () => {
         <div class="card-body formulario">
         <h5 class="card-title">Estos son tus márgenes</h5>
         <p class="card-text"> IVA INSCRIPTO:    
-        la utilidad bruta es $${encontrado.brutainscripto}, pagás IVA y además ingresos brutos por $${encontrado.pagoiibb}, Tienes que pagar ingresos brutos por $${encontrado.pagoiibb}, 
-        IVA por $${encontrado.ivainscripto}, en total perderás $${encontrado.totalimp}, puedes acceder a la financiación por el IVA </p>      
+        la utilidad bruta es $${encontrado.brutaInscripto}, pagás IVA y además ingresos brutos por $${encontrado.pagoIbb}, Tienes que pagar ingresos brutos por $${encontrado.pagoIbb}, 
+        IVA por $${encontrado.ivaInscripto}, puedes acceder a la financiación por el IVA </p>      
         </div>
         </div>`
         a.append(opcion1)
@@ -204,13 +202,13 @@ op2.addEventListener("click", () => {
         alert("son demasiadas cuotas, vuelve a ingresar a la financiación e ingresa hasta 12")
     }
     else {
-        function financiacion() {
+        function Financiacion() {
             return (capital * interes / cuotas)
         }
 
-        mensual = financiacion()
-        encontrado.cantcuotas = (`${cuotas}`)
-        encontrado.valorcuota = (`${mensual}`)
+        mensual = Financiacion()
+        encontrado.cantCuotas = (`${cuotas}`)
+        encontrado.valorCuota = (`${mensual}`)
         let a = document.getElementById("opciones")
         let opcion2 = document.createElement("div")
         parsedNuevo = JSON.parse(localStorage.getItem("nuevo"))
@@ -224,7 +222,7 @@ op2.addEventListener("click", () => {
         opcion2.innerHTML = ` <div class="card separate size" style="width: 100%;">
             <div class="card-body formulario">
                     <h5 class="card-title">Detalle de la financiación</h5>
-                    <p class="card-text">elegiste $${encontrado.cantcuotas} cuotas, pagarás $${encontrado.cantcuotas} cuotas de $${encontrado.valorcuota} con un interes del ${porcentaje}%
+                    <p class="card-text">elegiste $${encontrado.cantCuotas} cuotas, pagarás $${encontrado.cantCuotas} cuotas de $${encontrado.valorCuota} con un interes del ${porcentaje}%
     
                     </p>      
                 </div>
@@ -242,6 +240,23 @@ op2.addEventListener("click", () => {
 let op3 = document.getElementById("limpiar")
 op3.addEventListener("click", () => {
     a.remove()
+}
+)
+
+let op4 = document.getElementById("cambio")
+op4.addEventListener("click", () => {
+
+    const host = 'api.frankfurter.app';
+    fetch(`https://${host}/latest?amount=100&from=MXN&to=USD`)
+        .then(resp => resp.json())
+        .then((data) => {
+
+            Swal.fire(
+                `1 peso equivale a = ${data.rates.USD} dolares`
+            )
+
+        });
+
 }
 )
 
