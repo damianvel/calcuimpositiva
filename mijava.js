@@ -1,14 +1,15 @@
+//setea base clientes
 baseclientes = []
+
+//servidor conversor monedas
+const host = 'api.frankfurter.app'
 
 //variables fijas por entidad
 interes = 0.25
 let porcentaje = interes * 100
 let ali = 5
 
-
-//FUNCION CONSTRUCTORA NUEVO CONTRIBUYENTE
-
-
+//FUNCION CONSTRUCTORA DE NUEVO CONTRIBUYENTE
 function Contri(razon, dni, ventas, costo, condicion, pagoIbb, brutaNoInscripto, brutaInscripto, netoIva, ivaInscripto, totalImp) {
 
     this.razon = razon
@@ -49,7 +50,6 @@ let contribuyente2 = new Contri(
     200,
     100,
     50)
-
 
 baseclientes.push(contribuyente1)
 baseclientes.push(contribuyente2)
@@ -121,28 +121,71 @@ function Agregar(send) {
     baseclientes.push(nuevocont)
     baseJson = JSON.stringify(baseclientes)
     localStorage.setItem(`base`, baseJson)
+
+
 }
 
+
+
+// CONSULTA DOLAR
+
+let op4 = document.getElementById("cambio")
+op4.addEventListener("click", () => {
+
+    fetch(`https://${host}/latest?amount=100&from=MXN&to=USD`)
+        .then(resp => resp.json())
+        .then((data) => {
+
+            //la api consumida es muy buena pero no tiene moneda ARG, se hardcodea ajustando con el peso MEXICANO
+            let ajuste = data.rates.USD * 58
+
+
+            let timerInterval
+            Swal.fire({
+                title: `1 dolar = ${ajuste} pesos`,
+                html: 'Tómate un momento para pensar...',
+                timer: 5000,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                    }, 100)
+                },
+                willClose: () => {
+                    clearInterval(timerInterval)
+                }
+            }).then((result) => {
+                if (result.dismiss === Swal.DismissReason.timer) {
+                    console.log('I was closed by the timer')
+                }
+            })
+
+        });
+
+}
+)
 
 //CONSULTA POR PARTE DEL CONTRIBUYENTE
 
 // INGRESO DEL DNI
 
 let op0 = document.getElementById("dniinput")
+
+
 op0.addEventListener("click", () => {
     dniinput = prompt(`para iniciar una consulta por favor ingrese su DNI`)
     parsedBase = JSON.parse(localStorage.getItem("base"))
     busqueda = parsedBase.find((busqueda) => busqueda.dni === dniinput)
     indice = parsedBase.findIndex(parsedBase => parsedBase.dni === dniinput)
     parsedBase.find((busqueda) => busqueda.dni === dniinput)
-    if (busqueda) {
 
+
+
+    if (busqueda) {
 
         encontrado = Object(parsedBase.filter((encontrado) => encontrado.dni === dniinput))[0]
         capital = encontrado.ivaInscripto
-        console.log(encontrado)
-        console.log(indice)
-        console.log(capital)
+
 
         Swal.fire(
             'El dni fue encontrado',
@@ -194,6 +237,11 @@ op1.addEventListener("click", () => {
     }
 })
 
+
+
+// OPCION FINANCIACION
+
+
 let op2 = document.getElementById("planpago")
 op2.addEventListener("click", () => {
 
@@ -237,26 +285,11 @@ op2.addEventListener("click", () => {
     }
 })
 
+
+// LIMPIAR
+
 let op3 = document.getElementById("limpiar")
 op3.addEventListener("click", () => {
     a.remove()
 }
 )
-
-let op4 = document.getElementById("cambio")
-op4.addEventListener("click", () => {
-
-    const host = 'api.frankfurter.app';
-    fetch(`https://${host}/latest?amount=100&from=MXN&to=USD`)
-        .then(resp => resp.json())
-        .then((data) => {
-
-            Swal.fire(
-                `1 peso equivale a = ${data.rates.USD} dolares`
-            )
-
-        });
-
-}
-)
-
