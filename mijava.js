@@ -57,12 +57,118 @@ baseclientes.push(contribuyente2)
 baseJson = JSON.stringify(baseclientes)
 localStorage.setItem(`base`, baseJson)
 
-//CAPTURA DE DATOS DESDE FORMULARIO
-let enviar = document.getElementById("enviar")
-enviar.addEventListener("click", Agregar)
 
-//LA FUNCIÓN SETEA TODAS LAS VARIABLES, REALIZA TODOS LOS CALCULOS Y LOS CARGA AL STORAGE
-function Agregar(send) {
+
+// CONSULTA DOLAR
+
+let op4 = document.getElementById("cambio")
+op4.addEventListener("click", () => {
+
+    fetch(`https://${host}/latest?amount=100&from=MXN&to=USD`)
+        .then(resp => resp.json())
+        .then((data) => {
+
+            //la api consumida es muy buena pero no tiene moneda ARG, se hardcodea ajustando con el peso MEXICANO
+            let ajuste = data.rates.USD * 58
+
+
+            let timerInterval
+            Swal.fire({
+                title: `1 dolar = ${ajuste} pesos`,
+                html: 'Tómate un momento para pensar...',
+                timer: 5000,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                    }, 100)
+                },
+                willClose: () => {
+                    clearInterval(timerInterval)
+                }
+            }).then((result) => {
+                if (result.dismiss === Swal.DismissReason.timer) {
+                    console.log('I was closed by the timer')
+                }
+            })
+
+        });
+
+}
+)
+
+//PRIMER BOTON
+
+
+let a = document.getElementById("opciones")
+let op5 = document.getElementById("participar")
+
+op5.addEventListener("click", () => {
+
+    let opcion5 = document.createElement("div")
+
+
+    opcion5.innerHTML =
+
+        `<div class="contactobox mainformulario">
+            
+
+            <!-- FORMULARIO -->
+        
+            <div class="container-fluid">
+                <form action="" >
+                    <fieldset class="fieldset">
+                        <div class="formulario">
+        
+                            <div class="formelement">
+                                <label for="nombre">NOMBRE</label>
+                                <input class="input" type="text" name="nombre" placeholder="" id="razon" required>
+                            </div>
+                            <div class="formelement">
+                                <label for="apellido">DNI</label>
+                                <input class="input" type="text" name="apellido" placeholder="" id="dni" required>
+                            </div>
+                            <div class="formelement">
+                                <label for="telefono">VENTAS</label>
+                                <input class="input" type="text" id="ventas" placeholder="" required>
+                            </div>
+                            <div class="formelement">
+                                <label for="telefono">COSTO DE VENTAS</label>
+                                <input class="input" type="text" id="costo" placeholder="" required>
+                            </div>
+                            <div class="formelement">
+                                <label for="condicion">CONDICION IVA</label>
+                                <select class="input" name="condicion" id="condicion">
+                                    <option class="formdesplegar" value=""> ...</option>
+                                    <option value="si"> responsable incripto</option>
+                                    <option value="no"> no inscripto</option>
+                                </select>
+                            </div> <div class="formelement">
+                            <input class="enviar" type="submit" title="cargar datos para futuras consultas" id="enviar">
+                        </div>
+                            
+                        </div>
+                    </fieldset>
+            </div>
+        </div>`
+    a.append(opcion5)
+
+    let enviar = document.getElementById("enviar")
+    enviar.addEventListener("click", cargaformulario)
+
+})
+
+
+//CAPTURA DE DATOS DESDE FORMULARIO
+
+
+function cargaformulario(send) {
+
+
+    setTimeout(function () {
+        a.remove();
+    }, 3500);
+
 
     send.preventDefault()
 
@@ -118,52 +224,30 @@ function Agregar(send) {
         Number(`${totalImp}`)
     )
 
+
     baseclientes.push(nuevocont)
     baseJson = JSON.stringify(baseclientes)
     localStorage.setItem(`base`, baseJson)
 
 
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+
+    Toast.fire({
+        icon: 'success',
+        title: 'Cargando tus datos....'
+    })
 }
 
-
-
-// CONSULTA DOLAR
-
-let op4 = document.getElementById("cambio")
-op4.addEventListener("click", () => {
-
-    fetch(`https://${host}/latest?amount=100&from=MXN&to=USD`)
-        .then(resp => resp.json())
-        .then((data) => {
-
-            //la api consumida es muy buena pero no tiene moneda ARG, se hardcodea ajustando con el peso MEXICANO
-            let ajuste = data.rates.USD * 58
-
-
-            let timerInterval
-            Swal.fire({
-                title: `1 dolar = ${ajuste} pesos`,
-                html: 'Tómate un momento para pensar...',
-                timer: 5000,
-                timerProgressBar: true,
-                didOpen: () => {
-                    Swal.showLoading()
-                    timerInterval = setInterval(() => {
-                    }, 100)
-                },
-                willClose: () => {
-                    clearInterval(timerInterval)
-                }
-            }).then((result) => {
-                if (result.dismiss === Swal.DismissReason.timer) {
-                    console.log('I was closed by the timer')
-                }
-            })
-
-        });
-
-}
-)
 
 //CONSULTA POR PARTE DEL CONTRIBUYENTE
 
@@ -171,44 +255,83 @@ op4.addEventListener("click", () => {
 
 let op0 = document.getElementById("dniinput")
 
+let opcion6 = document.createElement("div")
 
-op0.addEventListener("click", () => {
+
+op0.addEventListener("click", (entradadni) => {
+
+    entradadni.preventDefault()
     dniinput = prompt(`para iniciar una consulta por favor ingrese su DNI`)
     parsedBase = JSON.parse(localStorage.getItem("base"))
     busqueda = parsedBase.find((busqueda) => busqueda.dni === dniinput)
     indice = parsedBase.findIndex(parsedBase => parsedBase.dni === dniinput)
     parsedBase.find((busqueda) => busqueda.dni === dniinput)
 
-
-
     if (busqueda) {
 
         encontrado = Object(parsedBase.filter((encontrado) => encontrado.dni === dniinput))[0]
         capital = encontrado.ivaInscripto
-
 
         Swal.fire(
             'El dni fue encontrado',
             'Está habilitado el módulo de consultas',
             'success'
         )
+
+
+        opcion6.innerHTML =
+
+
+        `<div id="modulo" class="size">
+    <div class="card formulario style=" width: 18rem;>
+        <div class="card-body">
+            <h5 class="card-title">Consultas participantes</h5>
+            <p class="card-text">Utilice nuetra herramienta para conocer sus ganancias, impuestos y posibles financiaciones</p>
+            <a id="rendimiento" class="separate btn btn-primary">Ver mi rendimiento e impuestos</a>
+            <a id="planpago" class="separate btn btn-primary">Acceder a financiación</a>
+            <a id="limpiar" class="separate btn btn-primary">Limpiar consulta<nav></nav>                       
+                    <nav></nav>
+                </a>
+    
+        </div>
+    </div>`
+    
+    a.append(opcion6)
+
+    
+    async function esperar() {
+    }
+    
+    esperar.then
+    {
+    
+        let op1 = document.getElementById("rendimiento")
+        let op2 = document.getElementById("planpago")
+        let op3 = document.getElementById("limpiar")
+    
+        op1.addEventListener("click", rendimiento)
+        op2.addEventListener("click", finantiation)
+        op3.addEventListener("click", limpieza)
+    
     }
 
+esperar()
+
+    }
     else {
-        alert(`no se encuentra enla base de datos, vuelva a ingrsar al boton de consulta e ingrese un DNI válido `)
+        alert(`no se encuentra en la base de datos, vuelva a ingrsar al boton de consulta e ingrese un DNI válido `)
     }
 }
 )
 
-let a = document.getElementById("opciones")
 
-//PRIMER BOTON
+//BOTON RENDIENTO
 
-let op1 = document.getElementById("rendimiento")
+function rendimiento() {
 
-op1.addEventListener("click", () => {
 
-    let a = document.getElementById("opciones")
+    console.log("funciona click")
+    let resp = document.getElementById("respuestas")
     let opcion1 = document.createElement("div")
 
     if (encontrado.condicion === "no") {
@@ -221,7 +344,7 @@ op1.addEventListener("click", () => {
         pagar ingresos brutos por $ ${encontrado.pagoIbb}, Solamente debes pagar ingresos brutos por $ ${encontrado.pagoIbb}</p>      
         </div>
         </div>`
-        a.append(opcion1)
+        resp.append(opcion1)
     }
 
     else {
@@ -233,17 +356,13 @@ op1.addEventListener("click", () => {
         IVA por $${encontrado.ivaInscripto}, puedes acceder a la financiación por el IVA </p>      
         </div>
         </div>`
-        a.append(opcion1)
+        resp.append(opcion1)
     }
-})
+}
 
+//BOTON FINANCIACION
 
-
-// OPCION FINANCIACION
-
-
-let op2 = document.getElementById("planpago")
-op2.addEventListener("click", () => {
+function finantiation() {
 
     let cuotas = prompt("ingrese la cantidad de cuotas, se permiten hasta 12")
     if (cuotas > 12) {
@@ -257,15 +376,17 @@ op2.addEventListener("click", () => {
         mensual = Financiacion()
         encontrado.cantCuotas = (`${cuotas}`)
         encontrado.valorCuota = (`${mensual}`)
-        let a = document.getElementById("opciones")
-        let opcion2 = document.createElement("div")
-        parsedNuevo = JSON.parse(localStorage.getItem("nuevo"))
 
-        Swal.fire(
-            'Financiación realizada',
-            'A continuación puedes consultar el detalle de las cuotas',
-            'success'
-        )
+
+        parsedNuevo = JSON.parse(localStorage.getItem("nuevo"))
+        parsedBase.splice(indice, indice)
+        parsedBase.push(encontrado)
+        localStorage.setItem(`base`, JSON.stringify(parsedBase))
+
+
+        let resp = document.getElementById("respuestas")
+
+        let opcion2 = document.createElement("div")
 
         opcion2.innerHTML = ` <div class="card separate size" style="width: 100%;">
             <div class="card-body formulario">
@@ -275,21 +396,18 @@ op2.addEventListener("click", () => {
                     </p>      
                 </div>
                 </div>`
-        a.append(opcion2)
+        resp.append(opcion2)
 
-
-        parsedBase.splice(indice, indice)
-        parsedBase.push(encontrado)
-        localStorage.setItem(`base`, JSON.stringify(parsedBase))
-
+        Swal.fire(
+            'Financiación realizada',
+            'A continuación puedes consultar el detalle de las cuotas',
+            'success'
+        )
     }
-})
-
-
-// LIMPIAR
-
-let op3 = document.getElementById("limpiar")
-op3.addEventListener("click", () => {
-    a.remove()
 }
-)
+
+//BOTON LIMPIAR
+
+
+function limpieza() {
+    window.location.reload()}
