@@ -61,17 +61,16 @@ localStorage.setItem(`base`, baseJson)
 
 // CONSULTA DOLAR
 
-let op4 = document.getElementById("cambio")
-op4.addEventListener("click", () => {
+let op1 = document.getElementById("cambio")
+op1.addEventListener("click", () => {
 
     fetch(`https://${host}/latest?amount=100&from=MXN&to=USD`)
         .then(resp => resp.json())
         .then((data) => {
 
             //la api consumida es muy buena pero no tiene moneda ARG, se hardcodea ajustando con el peso MEXICANO
+
             let ajuste = data.rates.USD * 58
-
-
             let timerInterval
             Swal.fire({
                 title: `1 dolar = ${ajuste} pesos`,
@@ -97,29 +96,22 @@ op4.addEventListener("click", () => {
 }
 )
 
-//PRIMER BOTON
-
+//BOTON PARTICIPAR CON LOS DATOS
 
 let a = document.getElementById("opciones")
-let op5 = document.getElementById("participar")
+let op2 = document.getElementById("participar")
 
-op5.addEventListener("click", () => {
+op2.addEventListener("click", () => {
 
-    let opcion5 = document.createElement("div")
+    let opcion2 = document.createElement("div")
 
 
-    opcion5.innerHTML =
-
-        `<div class="contactobox mainformulario">
-            
-
-            <!-- FORMULARIO -->
-        
+    opcion2.innerHTML =
+        `<div class="contactobox mainformulario">  
             <div class="container-fluid">
                 <form action="" >
                     <fieldset class="fieldset">
                         <div class="formulario">
-        
                             <div class="formelement">
                                 <label for="nombre">NOMBRE</label>
                                 <input class="input" type="text" name="nombre" placeholder="" id="razon" required>
@@ -151,24 +143,18 @@ op5.addEventListener("click", () => {
                     </fieldset>
             </div>
         </div>`
-    a.append(opcion5)
+    a.append(opcion2)
 
     let enviar = document.getElementById("enviar")
     enviar.addEventListener("click", cargaformulario)
 
 })
 
-
 //CAPTURA DE DATOS DESDE FORMULARIO
-
-
 function cargaformulario(send) {
-
-
     setTimeout(function () {
         a.remove();
-    }, 3500);
-
+    }, 2000);
 
     send.preventDefault()
 
@@ -234,7 +220,7 @@ function cargaformulario(send) {
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
-        timer: 3000,
+        timer: 2000,
         timerProgressBar: true,
         didOpen: (toast) => {
             toast.addEventListener('mouseenter', Swal.stopTimer)
@@ -253,11 +239,10 @@ function cargaformulario(send) {
 
 // INGRESO DEL DNI
 
+
+let opcion3 = document.createElement("div")
+
 let op0 = document.getElementById("dniinput")
-
-let opcion6 = document.createElement("div")
-
-
 op0.addEventListener("click", (entradadni) => {
 
     entradadni.preventDefault()
@@ -279,10 +264,10 @@ op0.addEventListener("click", (entradadni) => {
         )
 
 
-        opcion6.innerHTML =
+        opcion3.innerHTML =
 
 
-        `<div id="modulo" class="size">
+            `<div id="modulo" class="size">
     <div class="card formulario style=" width: 18rem;>
         <div class="card-body">
             <h5 class="card-title">Consultas participantes</h5>
@@ -295,27 +280,25 @@ op0.addEventListener("click", (entradadni) => {
     
         </div>
     </div>`
-    
-    a.append(opcion6)
 
-    
-    async function esperar() {
-    }
-    
-    esperar.then
-    {
-    
-        let op1 = document.getElementById("rendimiento")
-        let op2 = document.getElementById("planpago")
-        let op3 = document.getElementById("limpiar")
-    
-        op1.addEventListener("click", rendimiento)
-        op2.addEventListener("click", finantiation)
-        op3.addEventListener("click", limpieza)
-    
-    }
+        a.append(opcion3)
 
-esperar()
+        let op4 = document.getElementById("rendimiento")
+        let op5 = document.getElementById("planpago")
+        let op6 = document.getElementById("limpiar")
+
+
+        async function esperar() {
+        }
+
+        esperar.then
+        {   op4.addEventListener("click", rendimiento)
+            op5.addEventListener("click", finantiation)
+            op6.addEventListener("click", limpieza)
+
+        }
+
+        esperar()
 
     }
     else {
@@ -332,10 +315,10 @@ function rendimiento() {
 
     console.log("funciona click")
     let resp = document.getElementById("respuestas")
-    let opcion1 = document.createElement("div")
+    let opcion4 = document.createElement("div")
 
     if (encontrado.condicion === "no") {
-        opcion1.innerHTML =
+        opcion4.innerHTML =
             `<div class="card separate" style="width: 100%;">
         <div class="card-body formulario">
         <h5 class="card-title">Estos son tus márgenes</h5>
@@ -344,11 +327,11 @@ function rendimiento() {
         pagar ingresos brutos por $ ${encontrado.pagoIbb}, Solamente debes pagar ingresos brutos por $ ${encontrado.pagoIbb}</p>      
         </div>
         </div>`
-        resp.append(opcion1)
+        resp.append(opcion4)
     }
 
     else {
-        opcion1.innerHTML = ` <div class="card  size separate" style="width: 100%;">
+        opcion4.innerHTML = ` <div class="card  size separate" style="width: 100%;">
         <div class="card-body formulario">
         <h5 class="card-title">Estos son tus márgenes</h5>
         <p class="card-text"> IVA INSCRIPTO:    
@@ -356,7 +339,7 @@ function rendimiento() {
         IVA por $${encontrado.ivaInscripto}, puedes acceder a la financiación por el IVA </p>      
         </div>
         </div>`
-        resp.append(opcion1)
+        resp.append(opcion4)
     }
 }
 
@@ -386,9 +369,9 @@ function finantiation() {
 
         let resp = document.getElementById("respuestas")
 
-        let opcion2 = document.createElement("div")
+        let opcion5 = document.createElement("div")
 
-        opcion2.innerHTML = ` <div class="card separate size" style="width: 100%;">
+        opcion5.innerHTML = ` <div class="card separate size" style="width: 100%;">
             <div class="card-body formulario">
                     <h5 class="card-title">Detalle de la financiación</h5>
                     <p class="card-text">elegiste $${encontrado.cantCuotas} cuotas, pagarás $${encontrado.cantCuotas} cuotas de $${encontrado.valorCuota} con un interes del ${porcentaje}%
@@ -396,7 +379,7 @@ function finantiation() {
                     </p>      
                 </div>
                 </div>`
-        resp.append(opcion2)
+        resp.append(opcion5)
 
         Swal.fire(
             'Financiación realizada',
@@ -410,4 +393,5 @@ function finantiation() {
 
 
 function limpieza() {
-    window.location.reload()}
+    window.location.reload()
+}
