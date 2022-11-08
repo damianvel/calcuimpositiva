@@ -1,1 +1,1 @@
-Esta es una calculadora que permite calcular el pago de impustos, dependiendo de la condición fiscal del clinete, y la posibilidad de acceder a una financiación en el caso que rean respobles inscriptos. 
+Esto comenzó como una calculadora de impuestos, pero según los diferentes requisitos de la cursada, incorporó otras utilidades.
